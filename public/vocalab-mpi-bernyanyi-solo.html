@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VocaLab: MPI Bernyanyi Solo SMP Kelas VII (Offline Standalone)</title>
+  <meta name="description" content="Multimedia Pembelajaran Interaktif Seni Budaya (Musik) SMP Kelas 7: Teknik Bernyanyi Solo, Nafas Diafragma, & Pengukur Intonasi Vokal.">
+  <style>
+    :root {
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --secondary: #0f172a;
+      --accent: #10b981;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body.dyslexic {
+      letter-spacing: 0.08em;
+      word-spacing: 0.15em;
+      line-height: 1.8;
+    }
+
+    body.high-contrast {
+      background-color: #ffffff;
+      color: #000000;
+      --border: #000000;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--secondary);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-icon {
+      width: 2rem;
+      height: 2rem;
+      background: linear-gradient(135deg, #f59e0b, #f43f5e);
+      color: white;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.825rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: white;
+      box-shadow: 0 4px 10px rgba(234, 88, 12, 0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(234, 88, 12, 0.35);
+    }
+
+    .btn-dark {
+      background: var(--secondary);
+      color: white;
+    }
+    .btn-dark:hover {
+      background: #1e293b;
+    }
+
+    .btn-outline {
+      background: white;
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background: #f1f5f9;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 1.5rem;
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-box {
+      background: linear-gradient(135deg, #fef3c7 0%, #fee2e2 50%, #f3e8ff 100%);
+      border: 1px solid #fed7aa;
+      border-radius: 2rem;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .start-btn {
+      padding: 1rem 2.5rem;
+      font-size: 1.25rem;
+      border-radius: 1.25rem;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: white;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .start-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 12px 25px rgba(239, 68, 68, 0.45);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .piano-key {
+      background: white;
+      border: 2px solid #cbd5e1;
+      border-radius: 0.75rem;
+      padding: 1.5rem 0.5rem;
+      text-align: center;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 3px 0 #94a3b8;
+    }
+    .piano-key:active {
+      transform: translateY(3px);
+      box-shadow: none;
+    }
+
+    .gauge-wrap {
+      background: #090d16;
+      color: white;
+      border-radius: 1.5rem;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .needle {
+      width: 4px;
+      height: 90px;
+      background: #f59e0b;
+      margin: 0 auto;
+      transform-origin: bottom center;
+      transition: transform 0.1s ease;
+      border-radius: 4px;
+    }
+
+    .breathing-ring {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 6px solid #10b981;
+      margin: 1.5rem auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #ecfdf5;
+      transition: transform 1s ease, border-color 0.5s ease;
+    }
+
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      padding: 1rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quiz-opt:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .quiz-opt.selected {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+
+    .certificate {
+      background: #fffbeb;
+      border: 8px double #f59e0b;
+      border-radius: 2rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: white;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    @media print {
+      header, .no-print {
+        display: none !important;
+      }
+      .certificate {
+        border-width: 4px;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Bar -->
+  <header class="no-print">
+    <div class="brand" onclick="showTab('beranda')">
+      <div class="brand-icon">🎵</div>
+      <span>VocaLab</span>
+      <span class="badge">SMP Kelas 7 (Offline)</span>
+    </div>
+
+    <div class="nav-links">
+      <button class="btn btn-outline" onclick="toggleDyslexic()">🔤 Font Disleksia</button>
+      <button class="btn btn-outline" onclick="toggleFullscreen()">🖥️ Fullscreen</button>
+      <button class="btn btn-dark" onclick="downloadThisHtml()">📥 Simpan HTML</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Section 1: Hero & START Fullscreen Trigger -->
+    <div id="tab-beranda" class="tab-content">
+      <div class="hero-box">
+        <span class="badge" style="font-size: 0.8rem; padding: 0.3rem 0.8rem;">
+          Kurikulum Merdeka · Seni Musik Semester 1
+        </span>
+        <h1 style="font-size: 2.5rem; font-weight: 900; margin: 0.75rem 0; color: #0f172a;">
+          Menjadi Bintang Bernyanyi Solo
+        </h1>
+        <p style="max-width: 650px; margin: 0 auto; color: #475569; font-size: 1.05rem;">
+          Multimedia Pembelajaran Interaktif (MPI) Mandiri. Kuasai rahasia <strong>pernapasan diafragma</strong>, <strong>resonansi suara</strong>, <strong>artikulasi vokal</strong>, dan latih intonasimu agar <strong>anti-fals</strong>!
+        </p>
+
+        <!-- Mandatory START Button with Fullscreen Trigger -->
+        <div>
+          <button class="start-btn" onclick="startAppFullscreen()">
+            <span>▶ START (MULAI & FULLSCREEN)</span>
+          </button>
+        </div>
+        <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.75rem;">
+          💡 Tombol START otomatis mengaktifkan mode Fullscreen peramban secara terprogram.
+        </p>
+      </div>
+
+      <!-- Quick Nav Hub -->
+      <div class="grid-3 no-print">
+        <div class="card" style="cursor: pointer;" onclick="showTab('materi')">
+          <span style="font-size: 1.5rem;">📖</span>
+          <h3 style="margin-top: 0.5rem; font-size: 1.1rem;">5 Pilar Vokal Solo</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Postur, Diafragma, Resonansi, Artikulasi, dan Intonasi.</p>
+        </div>
+
+        <div class="card" style="cursor: pointer;" onclick="showTab('nafas')">
+          <span style="font-size: 1.5rem;">🫁</span>
+          <h3 style="margin-top: 0.5rem; font-size: 1.1rem;">Lab Nafas Diafragma</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Simulator ritme tarikan, tahanan, dan hembusan 4-4-8.</p>
+        </div>
+
+        <div class="card" style="cursor: pointer;" onclick="showTab('tuner')">
+          <span style="font-size: 1.5rem;">🎯</span>
+          <h3 style="margin-top: 0.5rem; font-size: 1.1rem;">Lab Tuner Intonasi</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Pengukur nada mikrofon nyata dan keyboard solmisasi.</p>
+        </div>
+
+        <div class="card" style="cursor: pointer;" onclick="showTab('kuis')">
+          <span style="font-size: 1.5rem;">📝</span>
+          <h3 style="margin-top: 0.5rem; font-size: 1.1rem;">Kuis Formatif (80%)</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Uji kemampuan studi kasus vokal untuk klaim sertifikat.</p>
+        </div>
+
+        <div class="card" style="cursor: pointer;" onclick="showTab('sertifikat')">
+          <span style="font-size: 1.5rem;">🏆</span>
+          <h3 style="margin-top: 0.5rem; font-size: 1.1rem;">Piagam Penghargaan</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Sertifikat digital resmi atas nama kamu dan tim.</p>
+        </div>
+
+        <div class="card" style="cursor: pointer;" onclick="showTab('desain')">
+          <span style="font-size: 1.5rem;">📄</span>
+          <h3 style="margin-top: 0.5rem; font-size: 1.1rem;">Dokumen Kurikulum</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">23 Poin rancangan desain instruksional lengkap.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: 5 Pilar Materi -->
+    <div id="tab-materi" class="tab-content" style="display: none;">
+      <div class="card">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">
+          5 Pilar Teknik Bernyanyi Solo
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+          Kuasai 5 fondasi utama agar suaramu stabil, bervolume bulat, dan tidak cempreng.
+        </p>
+
+        <div class="grid-2">
+          <div style="background: #fffbeb; padding: 1.25rem; border-radius: 1rem; border: 1px solid #fde68a;">
+            <h4 style="color: #b45309; font-weight: 800;">1. Sikap Badan (Postur)</h4>
+            <p style="font-size: 0.85rem; margin-top: 0.4rem;">
+              Berdiri tegap tapi rileks, bahu tenang ke bawah agak ditarik ke belakang, dada terbuka tanpa membusung kaku, dan <strong>dagu sejajar lantai</strong>. Jangan mendongak saat nada tinggi agar pita suara tidak tercekik!
+            </p>
+          </div>
+
+          <div style="background: #ecfdf5; padding: 1.25rem; border-radius: 1rem; border: 1px solid #a7f3d0;">
+            <h4 style="color: #047857; font-weight: 800;">2. Pernapasan Diafragma</h4>
+            <p style="font-size: 0.85rem; margin-top: 0.4rem;">
+              Otot sekat rongga dada dan perut bergerak turun saat menghirup nafas, menampung udara bervolume maksimal. Lingkar pinggang mengembang ke samping tanpa mengangkat bahu ke atas.
+            </p>
+          </div>
+
+          <div style="background: #f0f9ff; padding: 1.25rem; border-radius: 1rem; border: 1px solid #bae6fd;">
+            <h4 style="color: #0369a1; font-weight: 800;">3. Tiga Rongga Resonansi</h4>
+            <p style="font-size: 0.85rem; margin-top: 0.4rem;">
+              Amplifier alami tubuh: Rongga Dada untuk nada rendah (*chest voice*), Rongga Mulut untuk nada sedang, dan Rongga Kepala/Sinus untuk nada tinggi (*head voice*) agar suara melengking indah tanpa menjerit.
+            </p>
+          </div>
+
+          <div style="background: #f5f3ff; padding: 1.25rem; border-radius: 1rem; border: 1px solid #ddd6fe;">
+            <h4 style="color: #6d28d9; font-weight: 800;">4. Artikulasi & Diksi Vokal</h4>
+            <p style="font-size: 0.85rem; margin-top: 0.4rem;">
+              Bukaan rongga mulut standar 2 jari vertikal di antara gigi depan untuk vokal "A", rahang bawah santai, dan huruf konsonan ditegaskan agar lirik terdengar jernih oleh penonton.
+            </p>
+          </div>
+
+          <div style="background: #fff1f2; padding: 1.25rem; border-radius: 1rem; border: 1px solid #fecdd3; grid-column: 1 / -1;">
+            <h4 style="color: #be123c; font-weight: 800;">5. Intonasi & Pitch (Anti-Fals)</h4>
+            <p style="font-size: 0.85rem; margin-top: 0.4rem;">
+              Ketepatan membidik tinggi-rendah nada solmisasi (Do-Re-Mi-Fa-Sol-La-Si-Do). Fals terjadi jika tekanan nafas diafragma kendur atau leher tegang.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; text-align: right;">
+          <button class="btn btn-primary" onclick="showTab('nafas')">Lanjut ke Lab Nafas Diafragma →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Lab Nafas Diafragma -->
+    <div id="tab-nafas" class="tab-content" style="display: none;">
+      <div class="card" style="text-align: center;">
+        <h2 style="font-size: 1.5rem; font-weight: 800;">Simulator Nafas Diafragma 4-4-8</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Ikuti visual ring di bawah ini: Tarik (4s) → Tahan (4s) → Hembus Desis 'Sss' (8s).
+        </p>
+
+        <div id="b-ring" class="breathing-ring">
+          <span id="b-timer" style="font-size: 3rem; font-weight: 900; color: #065f46;">4s</span>
+          <span id="b-label" style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #047857;">SIAP</span>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <button id="b-btn" class="btn btn-primary" onclick="toggleBreathing()">▶ Mulai Latihan Nafas</button>
+          <button class="btn btn-outline" onclick="resetBreathing()">↺ Reset</button>
+        </div>
+
+        <p id="b-desc" style="margin-top: 1.5rem; font-size: 0.85rem; color: #475569; max-width: 500px; margin-left: auto; margin-right: auto;">
+          Letakkan tanganmu di pinggang samping. Pastikan tanganmu terdorong keluar saat menarik nafas, bukan bahu yang terangkat!
+        </p>
+
+        <div style="margin-top: 2rem; display: flex; justify-content: space-between;">
+          <button class="btn btn-outline" onclick="showTab('materi')">← Kembali ke Materi</button>
+          <button class="btn btn-primary" onclick="showTab('tuner')">Lanjut ke Lab Tuner →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Lab Tuner & Keyboard Solmisasi -->
+    <div id="tab-tuner" class="tab-content" style="display: none;">
+      <div class="card">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">
+          Lab Pengukur Intonasi Vokal
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+          Bunyikan tuts piano solmisasi di bawah untuk mendengarkan nada panduan, lalu aktifkan mikrofon untuk mengukur suaramu!
+        </p>
+
+        <!-- Solfege Piano Keyboard -->
+        <h4 style="margin-bottom: 0.5rem; font-weight: 800;">1. Keyboard Solmisasi (Do-Re-Mi):</h4>
+        <div class="grid-3" style="grid-template-columns: repeat(8, 1fr); gap: 0.5rem; margin-bottom: 1.5rem;">
+          <button class="piano-key" onclick="playTone(261.63, 'Do')">1<br><small>Do</small></button>
+          <button class="piano-key" onclick="playTone(293.66, 'Re')">2<br><small>Re</small></button>
+          <button class="piano-key" onclick="playTone(329.63, 'Mi')">3<br><small>Mi</small></button>
+          <button class="piano-key" onclick="playTone(349.23, 'Fa')">4<br><small>Fa</small></button>
+          <button class="piano-key" onclick="playTone(392.00, 'Sol')">5<br><small>Sol</small></button>
+          <button class="piano-key" onclick="playTone(440.00, 'La')">6<br><small>La</small></button>
+          <button class="piano-key" onclick="playTone(493.88, 'Si')">7<br><small>Si</small></button>
+          <button class="piano-key" onclick="playTone(523.25, 'Do Tinggi')">1˙<br><small>Do˙</small></button>
+        </div>
+
+        <!-- Tuner Needle Display -->
+        <div class="gauge-wrap">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">PENALA NADA VOKAL</span>
+            <button id="mic-btn" class="btn btn-primary" onclick="toggleMic()">🎙️ Aktifkan Mikrofon</button>
+          </div>
+
+          <div style="width: 240px; height: 120px; border: 4px solid #334155; border-bottom: none; border-radius: 120px 120px 0 0; margin: 0 auto; position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: center;">
+            <div id="tuner-needle" class="needle"></div>
+          </div>
+
+          <div style="margin-top: 1rem;">
+            <span id="detected-note" style="font-size: 2.5rem; font-weight: 900; font-family: monospace;">--</span>
+            <p id="tuner-status" style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;">Menunggu suara vokal...</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; display: flex; justify-content: space-between;">
+          <button class="btn btn-outline" onclick="showTab('nafas')">← Kembali ke Nafas</button>
+          <button class="btn btn-primary" onclick="showTab('kuis')">Lanjut ke Kuis Formatif (80%) →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Kuis Formatif (Passing Grade 80%) -->
+    <div id="tab-kuis" class="tab-content" style="display: none;">
+      <div class="card">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">
+          Kuis Formatif Bernyanyi Solo
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+          Kriteria Ketuntasan Minimal: <strong>Nilai Minimal 80%</strong> (4 dari 5 Soal Benar) untuk membuka Piagam Digital.
+        </p>
+
+        <div id="quiz-container">
+          <!-- Question 1 -->
+          <div class="q-block" id="q1" style="margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">1. Saat menyanyikan lagu dengan nafas panjang, bahu Rian tampak naik-turun dan nafasnya cepat habis. Teknik apa yang harus Rian gunakan?</h4>
+            <div class="quiz-opt" onclick="selectAnswer(1, 'A', this)">A. Menahan nafas di dada lebih kuat.</div>
+            <div class="quiz-opt" onclick="selectAnswer(1, 'B', this)">B. Beralih ke pernapasan diafragma yang menampung udara di bagian bawah paru-paru tanpa mengangkat bahu.</div>
+            <div class="quiz-opt" onclick="selectAnswer(1, 'C', this)">C. Menyanyi lebih cepat agar lagu segera selesai.</div>
+          </div>
+
+          <!-- Question 2 -->
+          <div class="q-block" id="q2" style="margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">2. Mengapa mendongakkan kepala ke atas saat menyanyikan nada tinggi merupakan kebiasaan yang keliru?</h4>
+            <div class="quiz-opt" onclick="selectAnswer(2, 'A', this)">A. Karena menekan laring dan mencekik pita suara sehingga suara serak atau meleset fals.</div>
+            <div class="quiz-opt" onclick="selectAnswer(2, 'B', this)">B. Karena membuat penonton tidak melihat wajah penyanyi.</div>
+            <div class="quiz-opt" onclick="selectAnswer(2, 'C', this)">C. Karena menyebabkan nafas diafragma berhenti bekerja.</div>
+          </div>
+
+          <!-- Question 3 -->
+          <div class="q-block" id="q3" style="margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">3. Jika seorang penyanyi membunyikan nada Sol lebih rendah 30 cents dari nada piano pengiring, kesalahan apa yang terjadi?</h4>
+            <div class="quiz-opt" onclick="selectAnswer(3, 'A', this)">A. Kesalahan Phrasering (pemenggalan kalimat).</div>
+            <div class="quiz-opt" onclick="selectAnswer(3, 'B', this)">B. Kesalahan Artikulasi huruf vokal.</div>
+            <div class="quiz-opt" onclick="selectAnswer(3, 'C', this)">C. Kesalahan Intonasi / Fals (underpitch/flat) karena kurang dukungan nafas diafragma.</div>
+          </div>
+
+          <!-- Question 4 -->
+          <div class="q-block" id="q4" style="margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">4. Budi memiliki suara yang terdengar cempreng dan tipis. Bagaimana cara mempertebal suaranya secara alami?</h4>
+            <div class="quiz-opt" onclick="selectAnswer(4, 'A', this)">A. Melatih resonansi suara di rongga dada dan rongga mulut.</div>
+            <div class="quiz-opt" onclick="selectAnswer(4, 'B', this)">B. Berteriak sekeras mungkin.</div>
+            <div class="quiz-opt" onclick="selectAnswer(4, 'C', this)">C. Mengunyah makanan sebelum bernyanyi.</div>
+          </div>
+
+          <!-- Question 5 -->
+          <div class="q-block" id="q5" style="margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">5. Berapakah standar bukaan rongga mulut yang benar saat mengucapkan huruf vokal "A" pada bernyanyi solo?</h4>
+            <div class="quiz-opt" onclick="selectAnswer(5, 'A', this)">A. Mulut dirapatkan rapat-rapat.</div>
+            <div class="quiz-opt" onclick="selectAnswer(5, 'B', this)">B. Kurang lebih 2 jari vertikal di antara gigi depan dengan rahang rileks ke bawah.</div>
+            <div class="quiz-opt" onclick="selectAnswer(5, 'C', this)">C. Dimonyongkan ke depan seperti bersiul.</div>
+          </div>
+
+          <button class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1rem;" onclick="gradeQuiz()">
+            Kirim Jawaban & Hitung Skor
+          </button>
+        </div>
+
+        <div id="quiz-result" style="display: none; margin-top: 1.5rem; padding: 1.5rem; border-radius: 1rem; text-align: center;"></div>
+      </div>
+    </div>
+
+    <!-- Section 6: Sertifikat Digital -->
+    <div id="tab-sertifikat" class="tab-content" style="display: none;">
+      <div id="cert-locked" class="card" style="text-align: center; padding: 3rem 1.5rem;">
+        <span style="font-size: 3rem;">🔒</span>
+        <h3 style="margin-top: 1rem;">Piagam Penghargaan Masih Terkunci</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 400px; margin: 0.5rem auto 1.5rem auto;">
+          Selesaikan kuis formatif di Stasiun Kuis dengan skor minimal <strong>80%</strong> untuk membuka dan mencetak piagam ini.
+        </p>
+        <button class="btn btn-primary" onclick="showTab('kuis')">Kerjakan Kuis Sekarang →</button>
+      </div>
+
+      <div id="cert-unlocked" class="certificate" style="display: none;">
+        <p style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; color: #b45309; font-weight: 800;">
+          Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi RI
+        </p>
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin: 0.5rem 0; color: #78350f;">
+          PIAGAM PENGHARGAAN
+        </h2>
+        <p style="font-size: 0.85rem; color: #92400e; margin-bottom: 1.5rem;">
+          Bintang Vokal Solo · Seni Budaya (Musik) SMP Kelas VII
+        </p>
+        <p style="font-size: 0.9rem;">Diberikan dengan bangga kepada:</p>
+        <h1 id="cert-student-name" style="font-size: 2rem; color: #1e293b; margin: 0.5rem 0; text-decoration: underline; text-decoration-color: #f59e0b;">
+          Siswa Berprestasi VocaLab
+        </h1>
+        <p style="font-size: 0.9rem; max-width: 600px; margin: 1rem auto; color: #475569;">
+          Atas keberhasilan memahami dan mempraktikkan 5 Pilar Teknik Bernyanyi Solo (Postur, Nafas Diafragma, Resonansi, Artikulasi, dan Intonasi Anti-Fals) pada Multimedia Pembelajaran Interaktif VocaLab dengan predikat <strong>SANGAT BAIK</strong>.
+        </p>
+        <p id="cert-score-label" style="font-weight: 800; font-size: 1.1rem; color: #047857; margin: 1rem 0;">
+          Skor Evaluasi: 100%
+        </p>
+        <div style="margin-top: 2rem;" class="no-print">
+          <button class="btn btn-dark" onclick="window.print()">🖨️ Cetak / Simpan Piagam</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7: Dokumen Desain Instruksional 23 Poin -->
+    <div id="tab-desain" class="tab-content" style="display: none;">
+      <div class="card">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">
+          Dokumen Desain Instruksional (23 Poin Kurikulum)
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+          Rancangan lengkap pedagogis, teknis HTML5 Fullscreen API, dan spesifikasi Kurikulum Merdeka SMP Kelas VII.
+        </p>
+        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 1rem; padding: 1rem; font-size: 0.8rem; line-height: 1.7; max-height: 500px; overflow-y: auto;">
+          <p><strong>1. Judul:</strong> VocaLab: Menjadi Bintang Vokal Solo (Seni Musik SMP Kelas VII)</p>
+          <p><strong>2. Deskripsi:</strong> MPI berbasis Web Audio API, simulasi pernapasan 4-4-8, dan live pitch tuner anti-fals.</p>
+          <p><strong>3. Sasaran:</strong> Siswa SMP Kelas 7 Semester 1 (Usia 12-13 tahun, Fase D).</p>
+          <p><strong>4. Tujuan:</strong> Mampu memahami dan mempraktikkan 5 teknik dasar vokal solo dengan standar kuis >= 80%.</p>
+          <p><strong>5. Rasional:</strong> Pendekatan konstruktivisme, dual coding, dan UDL diferensiasi.</p>
+          <p><strong>6. Alur:</strong> Apersepsi (15m) → Eksplorasi (35m) → Simulasi (35m) → Kuis (20m) → Refleksi (15m).</p>
+          <p><strong>7. Flowchart:</strong> START (Fullscreen) → Menu → 5 Pilar → Lab Nafas → Lab Tuner → Kuis 80% → Sertifikat.</p>
+          <p><strong>8. Fullscreen Trigger:</strong> Programmatic HTML5 Fullscreen API pada tombol START.</p>
+          <p><strong>9. Storyboard:</strong> Cover, Tuner Gauge, Simulator Nafas, Kuis Studi Kasus, dan Piagam Cetak.</p>
+          <p><strong>10. Aktivitas:</strong> Deteksi nada mic nyata, drill hembusan desis 8 detik, dan uji ear-training.</p>
+          <p><strong>11. Konten:</strong> Postur rileks, diafragma, resonansi 3 rongga, artikulasi 2 jari vokal A, solfeggio.</p>
+          <p><strong>12. Visual:</strong> Palet 60-30-10 warna pastel ceria ramah remaja awal.</p>
+          <p><strong>13. Audio:</strong> Web Audio API tone synthesis dan Web Speech API Text-to-Speech bahasa Indonesia.</p>
+          <p><strong>14. Simulasi:</strong> Visual ring kembang-kempis dan jarum cents -50 s/d +50 cents.</p>
+          <p><strong>15. Asesmen:</strong> 5 butir soal analitis formatif KKM 80%.</p>
+          <p><strong>16. Umpan Balik:</strong> Penjelasan ilmiah dampak fisik pita suara dan apresiasi positif.</p>
+          <p><strong>17. Rubrik:</strong> Skala 1-4 aspek postur, pernapasan, intonasi, dan artikulasi.</p>
+          <p><strong>18. Diferensiasi:</strong> Audio player di setiap halaman dan lembar kolaborasi kelompok.</p>
+          <p><strong>19. Aksesibilitas:</strong> Standar WCAG AA, font disleksia, tombol minimal 44px.</p>
+          <p><strong>20. Teknis:</strong> HTML5, CSS3, JavaScript modern, AudioContext, AnalyserNode, Autocorrelation.</p>
+          <p><strong>21. Prompt Gambar:</strong> Karakter maskot Melodi burung kicau ber-headphone pastel 3D.</p>
+          <p><strong>22. Prompt Video:</strong> Veo 16:9 edukatif teknik vokal panggung SMP.</p>
+          <p><strong>23. Rekomendasi:</strong> Penyimpanan cloud LMS, spektrogram audio, dan karaoke solo daerah.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="no-print">
+    VocaLab · Multimedia Pembelajaran Interaktif Seni Musik SMP Kelas VII · Kurikulum Merdeka (Standar Offline HTML5)
+  </footer>
+
+  <script>
+    // State
+    let audioCtx = null;
+    let micStream = null;
+    let micAnalyser = null;
+    let isMicActive = false;
+    let breathingInterval = null;
+    let breathingRunning = false;
+    let userAnswers = {};
+
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    // Programmatic Fullscreen START
+    function startAppFullscreen() {
+      const elem = document.documentElement;
+      try {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen().catch(e => console.warn(e));
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+      showTab('materi');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        startAppFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    function toggleDyslexic() {
+      document.body.classList.toggle('dyslexic');
+    }
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Web Audio Piano Synthesizer
+    function playTone(freq, label) {
+      try {
+        const ctx = getAudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.4, ctx.currentTime + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 1.2);
+
+        document.getElementById('detected-note').innerText = label;
+        document.getElementById('tuner-status').innerText = 'Nada Panduan Piano: ' + freq + ' Hz';
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    // Breathing Exercise Simulator
+    let bPhase = 'inhale'; // inhale(4), hold(4), exhale(8)
+    let bSec = 4;
+    function toggleBreathing() {
+      const ring = document.getElementById('b-ring');
+      const timer = document.getElementById('b-timer');
+      const label = document.getElementById('b-label');
+      const desc = document.getElementById('b-desc');
+      const btn = document.getElementById('b-btn');
+
+      if (breathingRunning) {
+        clearInterval(breathingInterval);
+        breathingRunning = false;
+        btn.innerText = '▶ Lanjutkan Nafas';
+        return;
+      }
+
+      breathingRunning = true;
+      btn.innerText = '⏸ Jeda Latihan';
+
+      breathingInterval = setInterval(() => {
+        bSec--;
+        timer.innerText = bSec + 's';
+
+        if (bSec <= 0) {
+          if (bPhase === 'inhale') {
+            bPhase = 'hold';
+            bSec = 4;
+            label.innerText = 'TAHAN (HOLD)';
+            desc.innerText = 'Tahan udara di diafragma. Leher dan bahu tetap rileks!';
+            ring.style.transform = 'scale(1.15)';
+            ring.style.borderColor = '#f59e0b';
+          } else if (bPhase === 'hold') {
+            bPhase = 'exhale';
+            bSec = 8;
+            label.innerText = 'HEMBUS DESIS (SSS)';
+            desc.innerText = 'Hembuskan perlahan lewat celah gigi dengan bunyi "Sss..." secara konstan.';
+            ring.style.transform = 'scale(0.9)';
+            ring.style.borderColor = '#38bdf8';
+          } else {
+            bPhase = 'inhale';
+            bSec = 4;
+            label.innerText = 'TARIK (INHALE)';
+            desc.innerText = 'Tarik nafas lewat hidung. Rasakan perut dan pinggang samping mengembang!';
+            ring.style.transform = 'scale(1.15)';
+            ring.style.borderColor = '#10b981';
+          }
+        }
+      }, 1000);
+    }
+
+    function resetBreathing() {
+      clearInterval(breathingInterval);
+      breathingRunning = false;
+      bPhase = 'inhale';
+      bSec = 4;
+      document.getElementById('b-btn').innerText = '▶ Mulai Latihan Nafas';
+      document.getElementById('b-timer').innerText = '4s';
+      document.getElementById('b-label').innerText = 'SIAP';
+      document.getElementById('b-ring').style.transform = 'scale(1)';
+    }
+
+    // Real Microphone Tuner using Autocorrelation
+    async function toggleMic() {
+      const btn = document.getElementById('mic-btn');
+      if (isMicActive) {
+        if (micStream) micStream.getTracks().forEach(t => t.stop());
+        isMicActive = false;
+        btn.innerText = '🎙️ Aktifkan Mikrofon';
+        document.getElementById('tuner-status').innerText = 'Mikrofon nonaktif.';
+        return;
+      }
+
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const ctx = getAudioCtx();
+        const source = ctx.createMediaStreamSource(micStream);
+        micAnalyser = ctx.createAnalyser();
+        micAnalyser.fftSize = 2048;
+        source.connect(micAnalyser);
+        isMicActive = true;
+        btn.innerText = '🛑 Matikan Mikrofon';
+        document.getElementById('tuner-status').innerText = 'Mendengarkan vokalmu...';
+        detectPitchLoop();
+      } catch (err) {
+        alert('Akses mikrofon tidak diizinkan atau tidak ditemukan.');
+      }
+    }
+
+    function detectPitchLoop() {
+      if (!isMicActive || !micAnalyser) return;
+      const buffer = new Float32Array(micAnalyser.fftSize);
+      micAnalyser.getFloatTimeDomainData(buffer);
+
+      // Autocorrelation calculation
+      let sum = 0;
+      for (let i = 0; i < buffer.length; i++) sum += buffer[i] * buffer[i];
+      const rms = Math.sqrt(sum / buffer.length);
+
+      if (rms > 0.02) {
+        let maxCorr = -1;
+        let bestOffset = -1;
+        for (let offset = 40; offset < 500; offset++) {
+          let corr = 0;
+          for (let i = 0; i < buffer.length - offset; i++) {
+            corr += buffer[i] * buffer[i + offset];
+          }
+          if (corr > maxCorr) {
+            maxCorr = corr;
+            bestOffset = offset;
+          }
+        }
+
+        if (bestOffset > 0) {
+          const freq = Math.round(audioCtx.sampleRate / bestOffset);
+          if (freq >= 80 && freq <= 1000) {
+            const noteNum = 12 * (Math.log(freq / 440) / Math.log(2)) + 69;
+            const midi = Math.round(noteNum);
+            const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+            const noteName = notes[midi % 12];
+            const cents = Math.floor((1200 * Math.log(freq / (440 * Math.pow(2, (midi - 69) / 12)))) / Math.log(2));
+
+            document.getElementById('detected-note').innerText = noteName;
+            const needle = document.getElementById('tuner-needle');
+            const deg = Math.max(-45, Math.min(45, (cents / 50) * 45));
+            needle.style.transform = `rotate(${deg}deg)`;
+
+            const status = document.getElementById('tuner-status');
+            if (Math.abs(cents) <= 15) {
+              status.innerHTML = `<span style="color:#10b981;font-weight:bold;">✅ NADA PAS & AKURAT! (${freq} Hz)</span>`;
+            } else if (cents < -15) {
+              status.innerHTML = `<span style="color:#f59e0b;">⚠️ Fals Rendah (${cents} cents) - Tambah nafas!</span>`;
+            } else {
+              status.innerHTML = `<span style="color:#f43f5e;">⚠️ Fals Tinggi (+${cents} cents) - Rilekskan leher!</span>`;
+            }
+          }
+        }
+      }
+      requestAnimationFrame(detectPitchLoop);
+    }
+
+    // Quiz evaluation
+    const correctAnswers = { 1: 'B', 2: 'A', 3: 'C', 4: 'A', 5: 'B' };
+    function selectAnswer(qNum, choice, elem) {
+      userAnswers[qNum] = choice;
+      const parent = document.getElementById('q' + qNum);
+      parent.querySelectorAll('.quiz-opt').forEach(el => el.classList.remove('selected'));
+      elem.classList.add('selected');
+    }
+
+    function gradeQuiz() {
+      let score = 0;
+      for (let i = 1; i <= 5; i++) {
+        if (userAnswers[i] === correctAnswers[i]) score += 20;
+      }
+
+      const res = document.getElementById('quiz-result');
+      res.style.display = 'block';
+
+      if (score >= 80) {
+        res.style.background = '#ecfdf5';
+        res.style.border = '2px solid #10b981';
+        res.style.color = '#065f46';
+        res.innerHTML = `
+          <h3 style="font-size:1.5rem;font-weight:900;">🎉 SELAMAT! KAMU LULUS KKM</h3>
+          <p style="font-size:1.1rem;margin:0.5rem 0;">Skor Akhir: <strong>${score}%</strong> (Standar KKM 80%)</p>
+          <p style="font-size:0.85rem;margin-bottom:1rem;">Kamu telah menguasai 5 pilar teknik vokal solo dan berhak membuka Piagam Penghargaan!</p>
+          <button class="btn btn-primary" onclick="unlockCertificate(${score})">🏆 Buka Piagam Penghargaan Sekarang</button>
+        `;
+      } else {
+        res.style.background = '#fef2f2';
+        res.style.border = '2px solid #f87171';
+        res.style.color = '#991b1b';
+        res.innerHTML = `
+          <h3 style="font-size:1.3rem;font-weight:900;">📚 SKOR: ${score}% (PERLU MENGULANG)</h3>
+          <p style="font-size:0.85rem;margin:0.5rem 0;">Kriteria kelulusan adalah 80%. Tinjau kembali materi dan coba lagi kuis ini!</p>
+        `;
+      }
+    }
+
+    function unlockCertificate(score) {
+      document.getElementById('cert-locked').style.display = 'none';
+      document.getElementById('cert-unlocked').style.display = 'block';
+      document.getElementById('cert-score-label').innerText = 'Skor Evaluasi: ' + score + '% (LULUS KKM)';
+      showTab('sertifikat');
+    }
+
+    // Download This Self-Contained HTML File
+    function downloadThisHtml() {
+      const htmlContent = document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'vocalab-mpi-bernyanyi-solo.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html>

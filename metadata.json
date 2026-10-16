@@ -1,0 +1,6 @@
+{
+  "name": "VocaLab: MPI Bernyanyi Solo SMP Kelas 7",
+  "description": "Multimedia Pembelajaran Interaktif Seni Musik Kelas 7 SMP: Eksplorasi Teknik Vokal, Simulasi Pernapasan Diafragma, dan Pengukur Intonasi Nada Interaktif.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
